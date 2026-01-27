@@ -131,28 +131,28 @@ Instead, we:
 
 ## 🗂️ Repository Structure
 
-dynamic-hangman/
-│
-├── contracts/
-│ └── Hangman.sol # Solidity smart contract
-│
-├── frontend/
-│ ├── src/
-│ │ ├── App.tsx # Main UI (Lovable / React)
-│ │ ├── components/
-│ │ └── hooks/
-│ └── public/
-│
-├── scripts/
-│ └── deploy.ts # Deployment script (optional)
-│
-├── demo/
-│ └── hangman_demo.py # Original Python reference implementation
-│
-├── wordlists/
-│ └── words.txt # Small dictionary (used to generate Solidity list)
-│
-└── README
+dynamic-hangman/  
+│  
+├── contracts/  
+│ └── Hangman.sol # Solidity smart contract  
+│  
+├── frontend/  
+│ ├── src/  
+│ │ ├── App.tsx # Main UI (Lovable / React)  
+│ │ ├── components/  
+│ │ └── hooks/  
+│ └── public/  
+│  
+├── scripts/  
+│ └── deploy.ts # Deployment script (optional)  
+│  
+├── demo/  
+│ └── hangman_demo.py # Original Python reference implementation  
+│  
+├── wordlists/  
+│ └── words.txt # Small dictionary (used to generate Solidity list)  
+│  
+└── README  
 
 ---
 
