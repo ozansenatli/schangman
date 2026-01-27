@@ -134,11 +134,11 @@ Instead, we:
 dynamic-hangman/  
 │  
 ├── contracts/  
-│ └── Hangman.sol # Solidity smart contract  
+│ └── hangman.sol # Solidity smart contract  
 │  
 ├── frontend/  
 │ ├── src/  
-│ │ ├── App.tsx # Main UI (Lovable / React)  
+│ │ ├── app.tsx # Main UI (Lovable / React)  
 │ │ ├── components/  
 │ │ └── hooks/  
 │ └── public/  
