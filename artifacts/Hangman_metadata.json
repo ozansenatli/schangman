@@ -1,0 +1,216 @@
+{
+	"compiler": {
+		"version": "0.8.19+commit.7dd6d404"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "player",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint8",
+						"name": "length",
+						"type": "uint8"
+					},
+					{
+						"indexed": false,
+						"internalType": "bytes",
+						"name": "mask",
+						"type": "bytes"
+					}
+				],
+				"name": "GameStarted",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "player",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "bytes1",
+						"name": "letter",
+						"type": "bytes1"
+					},
+					{
+						"indexed": false,
+						"internalType": "bool",
+						"name": "correct",
+						"type": "bool"
+					},
+					{
+						"indexed": false,
+						"internalType": "bytes",
+						"name": "mask",
+						"type": "bytes"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint8",
+						"name": "wrongGuesses",
+						"type": "uint8"
+					},
+					{
+						"indexed": false,
+						"internalType": "enum Hangman.Status",
+						"name": "status",
+						"type": "uint8"
+					}
+				],
+				"name": "LetterGuessed",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "MAX_LEN",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "MAX_WRONG_GUESSES",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "MIN_LEN",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getMyGame",
+				"outputs": [
+					{
+						"internalType": "enum Hangman.Status",
+						"name": "status",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint8",
+						"name": "length",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint8",
+						"name": "wrongGuesses",
+						"type": "uint8"
+					},
+					{
+						"internalType": "bytes",
+						"name": "mask",
+						"type": "bytes"
+					},
+					{
+						"internalType": "uint32",
+						"name": "guessedMask",
+						"type": "uint32"
+					},
+					{
+						"internalType": "uint32",
+						"name": "correctMask",
+						"type": "uint32"
+					},
+					{
+						"internalType": "uint32",
+						"name": "wrongMask",
+						"type": "uint32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes1",
+						"name": "letter",
+						"type": "bytes1"
+					}
+				],
+				"name": "guessLetter",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "startGame",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/Hangman.sol": "Hangman"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/Hangman.sol": {
+			"keccak256": "0x0ce2678b25aa8ad602fd72cc0e8d1791c467170ca31734ae19338062c6a62b91",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c06b677556fd947f1b96f1aec1ee87e30d9b7a6d75a70d9c08805b698119328d",
+				"dweb:/ipfs/QmdeWNX55yJftxC5YDgbXY8uunfME1FZUrw1z3RaCfRHdj"
+			]
+		}
+	},
+	"version": 1
+}
