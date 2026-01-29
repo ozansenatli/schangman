@@ -158,9 +158,9 @@
 			{
 				"inputs": [
 					{
-						"internalType": "bytes1",
-						"name": "letter",
-						"type": "bytes1"
+						"internalType": "string",
+						"name": "_letter",
+						"type": "string"
 					}
 				],
 				"name": "guessLetter",
@@ -204,11 +204,11 @@
 	},
 	"sources": {
 		"contracts/Hangman.sol": {
-			"keccak256": "0x0ce2678b25aa8ad602fd72cc0e8d1791c467170ca31734ae19338062c6a62b91",
+			"keccak256": "0x4adfc2554339c19ee9e0f21d61104d5e12f0c1c89e73108100e4cf3200de3f2f",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c06b677556fd947f1b96f1aec1ee87e30d9b7a6d75a70d9c08805b698119328d",
-				"dweb:/ipfs/QmdeWNX55yJftxC5YDgbXY8uunfME1FZUrw1z3RaCfRHdj"
+				"bzz-raw://e42943d12ef65f0c3f17b9f21aec04d0d0bfbabbc713a6be2ed4d393a638a111",
+				"dweb:/ipfs/QmWyD4jFSHzg2hPHgrpeT44dC1X5HH8mPkb2g9YLBdEQNM"
 			]
 		}
 	},
