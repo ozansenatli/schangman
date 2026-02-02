@@ -1,0 +1,385 @@
+[
+	{
+		"inputs": [],
+		"name": "claimRefereeForfeit",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "player",
+				"type": "address"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "commitHash",
+				"type": "bytes32"
+			}
+		],
+		"name": "commitWord",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_referee",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_bondWei",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "player",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "enum Hangman.Status",
+				"name": "finalStatus",
+				"type": "uint8"
+			}
+		],
+		"name": "GameEnded",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "player",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint8",
+				"name": "length",
+				"type": "uint8"
+			},
+			{
+				"indexed": false,
+				"internalType": "bytes",
+				"name": "mask",
+				"type": "bytes"
+			}
+		],
+		"name": "GameStarted",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "player",
+				"type": "address"
+			},
+			{
+				"internalType": "bytes1",
+				"name": "letter",
+				"type": "bytes1"
+			},
+			{
+				"internalType": "uint16",
+				"name": "positionsMask",
+				"type": "uint16"
+			}
+		],
+		"name": "refereeAnswer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "player",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "bytes1",
+				"name": "letter",
+				"type": "bytes1"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint16",
+				"name": "positionsMask",
+				"type": "uint16"
+			},
+			{
+				"indexed": false,
+				"internalType": "bool",
+				"name": "correct",
+				"type": "bool"
+			}
+		],
+		"name": "RefereeAnswered",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "player",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "RefereeSlashed",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "player",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "word",
+				"type": "string"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "salt",
+				"type": "bytes32"
+			}
+		],
+		"name": "revealWord",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "startGame",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "player",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "bytes32",
+				"name": "commitHash",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "bond",
+				"type": "uint256"
+			}
+		],
+		"name": "WordCommitted",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "player",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "word",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "bytes32",
+				"name": "salt",
+				"type": "bytes32"
+			}
+		],
+		"name": "WordRevealed",
+		"type": "event"
+	},
+	{
+		"stateMutability": "payable",
+		"type": "receive"
+	},
+	{
+		"inputs": [],
+		"name": "getMyGame",
+		"outputs": [
+			{
+				"internalType": "enum Hangman.Status",
+				"name": "status",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "length",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "wrongGuesses",
+				"type": "uint8"
+			},
+			{
+				"internalType": "bytes",
+				"name": "mask",
+				"type": "bytes"
+			},
+			{
+				"internalType": "uint32",
+				"name": "guessedMask",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint32",
+				"name": "correctMask",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint32",
+				"name": "wrongMask",
+				"type": "uint32"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "wordCommit",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "uint256",
+				"name": "bond",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint64",
+				"name": "revealDeadline",
+				"type": "uint64"
+			},
+			{
+				"internalType": "bool",
+				"name": "revealed",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "MAX_LEN",
+		"outputs": [
+			{
+				"internalType": "uint8",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "MAX_WRONG_GUESSES",
+		"outputs": [
+			{
+				"internalType": "uint8",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "MIN_LEN",
+		"outputs": [
+			{
+				"internalType": "uint8",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "referee",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "REFEREE_BOND_WEI",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "REVEAL_DEADLINE_SECONDS",
+		"outputs": [
+			{
+				"internalType": "uint64",
+				"name": "",
+				"type": "uint64"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
