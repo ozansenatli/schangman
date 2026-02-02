@@ -1,238 +1,59 @@
-# 🪓 Dynamic Hangman on Ethereum
+# Schangman – Smart Contract Hangman with Referee Backend
 
-A **smart-contract-based Hangman game** implemented in Solidity, inspired by a *dynamic* Hangman variant where **no fixed word is chosen upfront**.  
-Instead, the game maintains a **set of all words still consistent with the player’s guesses**, guaranteeing fairness and determinism on-chain.
+Schangman is a blockchain-based variant of the Hangman game implemented as an Ethereum smart contract, combined with an off-chain **referee backend**.  
+The smart contract enforces game rules and stores all public game state on-chain, while the referee backend privately selects words, answers guesses, and later proves correctness via a cryptographic commitment.
 
----
-
-## 📌 Project Idea
-
-Traditional Hangman secretly selects a word at the start of the game.  
-This is **incompatible with blockchains**, because:
-
-- Smart contracts are **fully transparent**
-- There is **no true randomness**
-- Secrets cannot be kept on-chain
-
-### ✅ Our Solution: Dynamic Hangman
-
-We implement a **constraint-based Hangman**:
-
-- No word is fixed initially
-- The contract only tracks:
-  - word length
-  - revealed letters (mask)
-  - rejected letters
-  - number of wrong guesses
-- After each guess, the set of **possible valid words shrinks**
-- Any remaining word consistent with all guesses is valid
-
-> The game is fair because **the contract never lies** — it only enforces logical constraints.
-
-This design is inspired by the provided Python demo, which separates:
-- **off-chain word filtering**
-- **on-chain game logic**
+This design avoids storing secret words on-chain while keeping the game **verifiable, trust-minimized, and censorship-resistant**.
 
 ---
 
-## 🧠 Core Concept (from the Python Demo)
 
-The Python demo works as follows:
+### Components
 
-1. Start with a random word length
-2. Maintain:
-   - `_ _ _ _` word mask
-   - set of correct letters
-   - set of wrong letters
-3. On each guess:
-   - filter all words matching the constraints
-   - pick *any* valid word
-   - update the mask or wrong guesses
-
-### Solidity adaptation
-
-On-chain we **do not pick a random word**.  
-Instead, we:
-
-- Store a **fixed dictionary**
-- Maintain **constraints only**
-- Ensure that:
-  - all future states remain logically consistent
-  - the player cannot force contradictions
+- **Smart Contract (Solidity)**
+  - Holds all game state
+  - Enforces rules (guesses, win/loss, bond slashing)
+  - Verifies referee honesty using commitments
+- **Referee Backend (Node.js + ethers.js)**
+  - Privately selects a word
+  - Commits to the word hash on-chain
+  - Answers guesses with exact letter positions
+  - Reveals word + salt at the end
+- **Frontend**
+  - Calls `startGame` and displays game state
+  - Sends guesses
+  - Triggers backend endpoints
+  - (Implemented separately by another team member)
 
 ---
 
-## 🔗 Smart Contract Scope
+## Game Flow
 
-### What the Smart Contract Does
+1. **Player starts game**
+   - Calls `startGame()` on the smart contract
+   - Contract chooses a random word length (4–10)
 
-- Manages **game state per player**
-- Validates guesses (`a`–`z`, no duplicates)
-- Tracks:
-  - word length
-  - revealed positions
-  - correct letter set
-  - wrong letter set
-  - wrong guess counter
-- Determines:
-  - win condition
-  - loss condition
-- Emits events for frontend updates
+2. **Referee commits**
+   - Backend selects a secret word of that length
+   - Computes commitment:  
+     `keccak256(player, salt, word)`
+   - Calls `commitWord()` with a bond (stake)
 
-### What the Smart Contract Does NOT Do
+3. **Gameplay**
+   - Player guesses letters
+   - Backend answers each guess with:
+     - exact positions (bitmask), or
+     - confirmation that the letter is absent
+   - Contract updates mask and counts wrong guesses
 
-- No hidden secrets
-- No randomness
-- No large-scale computation
-- No file access
-- No regex or dynamic memory allocation
+4. **Game ends**
+   - Player wins (all letters revealed) or loses (too many wrong guesses)
 
----
-
-## ⚠️ Blockchain & Solidity Constraints
-
-### Transparency
-- All game state is public
-- No secret word can exist
-
-### Determinism
-- Same inputs → same state transition
-- No `block.timestamp` logic for gameplay
-- No randomness
-
-### Gas Costs
-- Dictionary size must be **small**
-- Filtering logic must be **gas-efficient**
-- Prefer:
-  - bitmasks
-  - fixed-size arrays
-  - `bytes` over `string`
-
-### Immutability
-- Contract logic cannot be changed after deployment
-- Bugs are permanent
+5. **Reveal & verification**
+   - Backend reveals word + salt
+   - Contract verifies:
+     - commitment correctness
+     - consistency with all previous answers
+   - Bond refunded if honest, slashed if cheating or timeout
 
 ---
-
-## 🧩 Architecture Overview
-
-### On-Chain (Solidity)
-- Game state
-- Guess validation
-- Constraint enforcement
-- Win/loss logic
-
-### Off-Chain
-- Frontend (UI)
-- Optional helper logic (display, UX)
-- No trust-sensitive logic
-
----
-
-## 🗂️ Repository Structure
-
-dynamic-hangman/  
-│  
-├── contracts/  
-│ └── hangman.sol # Solidity smart contract  
-│  
-├── frontend/  
-│ ├── src/  
-│ │ ├── app.tsx # Main UI (Lovable / React)  
-│ │ ├── components/  
-│ │ └── hooks/  
-│ └── public/  
-│  
-├── scripts/  
-│ └── deploy.ts # Deployment script (optional)  
-│  
-├── demo/  
-│ └── hangman_demo.py # Original Python reference implementation  
-│  
-├── wordlists/  
-│ └── words.txt # Small dictionary (used to generate Solidity list)  
-│  
-└── README  
-
----
-
-## 🛠️ Smart Contract Design (Planned)
-
-### State Variables (per game)
-
-- `uint8 wordLength`
-- `uint8 wrongGuesses`
-- `bytes mask` (`_a__`)
-- `uint32 guessedMask` (bitmask for a–z)
-- `Status gameStatus`
-
-### Core Functions
-
-- `startGame(uint8 length)`
-- `guessLetter(bytes1 letter)`
-- `getMask() view`
-- `getWrongGuesses() view`
-- `getGameStatus() view`
-
-### Events
-
-- `GameStarted`
-- `LetterGuessed`
-- `GameWon`
-- `GameLost`
-
----
-
-## 🧪 Development Roadmap
-
-### Phase 1 – Analysis
-- [x] Implement dynamic Hangman in Python
-- [x] Identify on-chain compatible logic
-- [x] Define constraints and state model
-
-### Phase 2 – Smart Contract
-- [ ] Implement Solidity contract
-- [ ] Encode dictionary efficiently
-- [ ] Add events and validations
-- [ ] Test in Remix VM
-
-### Phase 3 – Frontend (Lovable)
-- [ ] Minimal UI:
-  - start game
-  - display mask
-  - guess letters
-- [ ] Connect to contract via wallet
-- [ ] Show events and game state
-
-### Phase 4 – Testing & Refinement
-- [ ] Edge cases
-- [ ] Gas optimization
-- [ ] UI polish
-
----
-
-## 🎨 Frontend Plan (Lovable)
-
-The frontend will be intentionally simple:
-
-- Letter buttons (`A–Z`)
-- Word mask display (`_ A _ _`)
-- Hangman stage visualization
-- Wrong guess counter
-- Win / loss messages
-
-The frontend:
-- **never decides game logic**
-- only **reads contract state**
-- only **submits guesses**
-
----
-
-## 🎯 Learning Goals
-
-This project demonstrates:
-
-- How to design games for **fully transparent systems**
-- How to translate **off-chain logic into on-chain constraints**
-- Solidity state-machine thinking
-- Separation of concerns between blockchain and UI
